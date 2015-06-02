@@ -1,0 +1,32 @@
+.dot {
+  fill: #ff0;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.land {
+  fill: #222;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.legendText{
+	font-family: sans-serif;
+	font-size: 10px;
+
+}

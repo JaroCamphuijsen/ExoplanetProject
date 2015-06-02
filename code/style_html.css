@@ -1,0 +1,21 @@
+body{
+  background-color: black;
+  color: white;
+}
+.tooltip{
+  font-size: 9px;
+  position: relative;
+  background-color: rgba(0,0,0,.7);
+}
+
+#skyMapDiv{
+  
+}
+
+#orbitDiv{
+  
+}
+
+#selPlanetDiv{
+
+}
