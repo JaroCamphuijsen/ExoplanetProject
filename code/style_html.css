@@ -1,21 +1,40 @@
 body{
-  background-color: black;
-  color: white;
+	background-color: black;
+	color: white;
 }
 .tooltip{
-  font-size: 9px;
-  position: relative;
-  background-color: rgba(0,0,0,.7);
+	font-size: 9px;
+	position: relative;
+	background-color: rgba(0,0,0,.7);
 }
 
-#skyMapDiv{
-  
+#mpvDiv{
+	background-color: rgba(255,255,255,.3);
+	width: 70%;
+	height: 400px;
+	float: left;
+
 }
 
-#orbitDiv{
-  
+#spvDiv{
+	background-color: rgba(255,255,255,.7);
+	width: 30%;
+	height: 400px;
+	float: right;
 }
 
-#selPlanetDiv{
+div#button{
+	width: 100px;
+	height: 30px;
+	position: relative;
+	top: 450px;
+	background-color:red;
+	color: black;}
+
+h3{
+	
+}
+
+#spInfoDiv{
 
 }
