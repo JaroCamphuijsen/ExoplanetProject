@@ -4,6 +4,16 @@
   stroke-width: 1px;
 }
 
+.xAxis{
+  stroke: #000;
+  stroke-width:2px;
+}
+
+.yAxis{
+  stroke: #000;
+  stroke-width:2px;
+}
+
 .orbit{
   fill: none;
   stroke:red;
