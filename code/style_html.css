@@ -1,6 +1,6 @@
 body{
-	background-color: black;
-	color: white;
+	background-color: white;
+	color: black;
 }
 .tooltip{
 	font-size: 9px;
@@ -9,7 +9,7 @@ body{
 }
 
 #mpvDiv{
-	background-color: rgba(255,255,255,.3);
+	background-color: rgba(0,0,0,0);
 	width: 70%;
 	height: 400px;
 	float: left;
@@ -17,12 +17,23 @@ body{
 }
 
 #spvDiv{
-	background-color: rgba(255,255,255,.7);
+	background-color: rgba(0,0,0,0);
 	width: 30%;
 	height: 400px;
 	float: right;
 }
 
+#spInfoDiv{
+	background-color: rgba(0,0,0,0.1);
+	width: 60%;
+	height: 200px;
+	float: right;
+}
+#infoCol{
+	height: 100%;
+	background-color: rgba(0,0,0,0.1);
+
+}
 div#button{
 	width: 100px;
 	height: 30px;

@@ -1,6 +1,6 @@
 .dot {
-  fill: #ff0;
-  stroke: #fff;
+  fill: #000;
+  stroke: #000;
   stroke-width: 1px;
 }
 
@@ -15,4 +15,12 @@
   stroke:blue;
   stroke-width: 1px;
   stroke-dasharray:"(10,10)";
+}
+
+
+.star{
+  fill: yellow;
+  stroke:yellow;
+  stroke-width: 1px;
+  ;
 }
