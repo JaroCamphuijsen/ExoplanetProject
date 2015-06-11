@@ -4,14 +4,26 @@
   stroke-width: 1px;
 }
 
-.xAxis{
-  stroke: #000;
-  stroke-width:2px;
+.selectDot {
+  fill: #f00;
+  stroke: #f00;
 }
 
-.yAxis{
-  stroke: #000;
-  stroke-width:2px;
+.highlight{
+  fill: #ff0;
+  stroke: #ff0;
+}
+
+.axis{
+
+}
+
+.x{
+
+}
+
+.y{
+
 }
 
 .orbit{

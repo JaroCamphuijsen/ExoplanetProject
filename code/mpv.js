@@ -15,39 +15,54 @@ function updateScatter(data, svg, xAttr, yAttr){
     Updates the scatterplot to scatterplot with new dimensions xAttr and yAttr
     in the multiplanetview. Using sexy transitions.
     */
-    var dataXRange = d3.extent(data, function(p) { return p[xAttr]; });
-    var dataYRange = d3.extent(data, function(p) { return p[yAttr]; });
-
-    mpvXTransform.domain(dataXRange);
-    mpvYTransform.domain(dataYRange);
 
     var selData = filterData(data, xAttr, yAttr)
+    var dataXRange = d3.extent(data, function(p) { return p[xAttr]; });
+    var dataYRange = d3.extent(data, function(p) { return p[yAttr]; });
+    mpvXScale.domain(dataXRange);
+    mpvYScale.domain(dataYRange);
+    var xAxis = d3.svg.axis().scale(mpvXScale).orient("bottom");
+    var yAxis = d3.svg.axis().scale(mpvYScale).orient("left");
+    var dimensions = Object.keys(data[0]);
+   
 
-    // console.log(selData.length, data.length);
+    svg.selectAll("g.x.axis")
+        .on("mouseover", function(p){d3.select(d3.event.target).attr("class", "x axis highlight");})
+        .on("mouseout", function(p){d3.select(d3.event.target).attr("class", "x axis");})
+        .on("click", function(p){chooseDim(dimensions);})
+        .transition()
+        .call(xAxis);
+    svg.selectAll("g.y.axis")
+        .on("mouseover", function(p){d3.select(d3.event.target).attr("class", "y axis highlight");})
+        .on("mouseout", function(p){d3.select(d3.event.target).attr("class", "y axis");})
+        .on("click", function(p){chooseDim(dimensions);})
+        .transition()
+        .call(yAxis);    
+
     // data-join
     var points = mpvSvg.selectAll(".dot")
-        .data(selData, function(d) {return d.pl_name})
+        .data(selData, function(d) {return d.pl_name});
 
     // update old data
     points.transition()
         .duration(800)
-        .attr("cx", function(d) {return (mpvXTransform(d[xAttr]))})
-        .attr("cy", function(d) {return (mpvYTransform(d[yAttr]))})
+        .attr("cx", function(d) {return (mpvXScale(d[xAttr]))})
+        .attr("cy", function(d) {return (mpvYScale(d[yAttr]))});
 
     // enter new data
     points.enter()
         .append("circle")
         .attr("class", "dot")
         .attr("cx", 0)
-        .attr("cy", function(d) {return (mpvYTransform(d[yAttr]))})
-        .style("fill", "rgb(0,0,0,0)")
-        .on("click", function(p){toSpv(p);})
+        .attr("cy", function(d) {return (mpvYScale(d[yAttr]))})
+        .on("mouseover", function(p){d3.select(d3.event.target).attr("class", "dot highlight");})
+        .on("mouseout", function(p){d3.select(d3.event.target).attr("class", "dot");})
+        .on("click", function(p){toSpv(p, spvSvg); d3.select(d3.event.target).attr("class", "selectDot");})
         .transition()
         .duration(800)
-        .attr("cx", function(d) {return (mpvXTransform(d[xAttr]))})
-        .attr("cy", function(d) {return (mpvYTransform(d[yAttr]))})
-        .attr("r", 2)
-        .style("fill", "rgb(0,0,0,1)");
+        .attr("cx", function(d) {return (mpvXScale(d[xAttr]))})
+        .attr("cy", function(d) {return (mpvYScale(d[yAttr]))})
+        .attr("r", 2);
 
     // exit old data
     points.exit()
@@ -57,5 +72,25 @@ function updateScatter(data, svg, xAttr, yAttr){
         .attr("cx", 0)
         .style("fill", "rgb(0,0,0,0)")
         .remove();
+    
+// zoom example from http://bl.ocks.org/mbostock/3680957
+    //     svg.call(d3.behavior.zoom().x(mpvXScale).y(mpvYScale).scaleExtent([1, 8]).on("zoom", zoom()))
+    // function zoom() {
+    //     points.style("transform", transform);
+    // }
 
+    // function transform(d) {
+    //     // console.log(d)
+    //   return "translate(" + mpvXScale(d.xAttr) + "," + mpvYScale(d.yAttr) + ")";
+    // }
+}
+
+function selectPlanet(planet) {
+    d3.select(planet)
+        .attr("class", "selectDot")
+}
+
+function chooseDim(dimensions, axis) {
+    console.log(dimensions)
+    console.log("Dropdown menu!")
 }

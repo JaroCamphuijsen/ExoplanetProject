@@ -1,3 +1,32 @@
+# This file was produced by the NASA Exoplanet Archive  http://exoplanetarchive.ipac.caltech.edu
+# Thu Jun 11 05:48:18 2015
+#
+# COLUMN pl_hostname:    (not found)
+# COLUMN pl_letter:      Planet Letter
+# COLUMN pl_discmethod:  Discovery Method
+# COLUMN pl_pnum:        Number of Planets in System
+# COLUMN pl_orbper:      Orbital Period [days]
+# COLUMN pl_orbsmax:     Orbit Semi-Major Axis [AU])
+# COLUMN pl_orbeccen:    Eccentricity
+# COLUMN pl_massj:       Planet Mass [Jupiter mass]
+# COLUMN pl_msinij:      Planet M*sin(i) [Jupiter mass]
+# COLUMN pl_radj:        Planet Radius [Jupiter radii]
+# COLUMN pl_dens:        Planet Density [g/cm**3]
+# COLUMN pl_orbincl:     Inclination [deg]
+# COLUMN pl_kepflag:     Kepler Field Flag
+# COLUMN ra:             RA [decimal degrees]
+# COLUMN dec:            Dec [decimal degrees]
+# COLUMN st_dist:        Distance [pc]
+# COLUMN st_vj:          V-band (Johnson) [mag]
+# COLUMN st_teff:        Effective Temperature [K]
+# COLUMN st_mass:        Stellar Mass [Solar mass]
+# COLUMN st_rad:         Stellar Radius [Solar radii]
+# COLUMN hd_name:        HD Name
+# COLUMN hip_name:       HIP Name
+# COLUMN pl_name:        Planet Name
+# COLUMN pl_disc:        Year of Discovery
+# COLUMN pl_pelink:      Link to Exoplanet Encyclopaedia
+#
 rowid,pl_hostname,pl_letter,pl_discmethod,pl_pnum,pl_orbper,pl_orbsmax,pl_orbeccen,pl_massj,pl_msinij,pl_radj,pl_dens,pl_orbincl,pl_kepflag,ra,dec,st_dist,st_vj,st_teff,st_mass,st_rad,hd_name,hip_name,pl_name,pl_disc,pl_pelink
 1,11 Com,b,Radial Velocity,1,326.03000000,1.290000,0.231000,,19.40000,,,,0,185.179276,17.792868,110.62,4.740,4742.00,2.7000,19.00,HD 107383,HIP 60202,11 Com b,2007,http://exoplanet.eu/catalog/11_com_b/
 2,11 UMi,b,Radial Velocity,1,516.22000000,1.540000,0.080000,,10.50000,,,,0,229.274536,71.823898,119.47,5.016,4340.00,1.8000,24.08,HD 136726,HIP 74793,11 UMi b,2009,http://exoplanet.eu/catalog/11_umi_b/
