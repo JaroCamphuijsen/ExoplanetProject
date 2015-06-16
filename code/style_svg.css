@@ -1,21 +1,43 @@
+.easterL{
+  fill: #0ff;
+}
+
+.easterR{
+  fill: #f00;
+}
+
 .dot {
   fill: #000;
-  stroke: #000;
-  stroke-width: 1px;
+  opacity: .2;
 }
 
-.selectDot {
+.selDot {
   fill: #f00;
-  stroke: #f00;
+  opacity: 1;
+
+}
+.axis{
+  fill: none;
+  stroke: #000;
 }
 
+.axisTitle{
+
+}
+
+.titleButton{
+  fill: #ddd;
+
+}
 .highlight{
   fill: #ff0;
-  stroke: #ff0;
 }
 
-.axis{
 
+
+.plotMenuButton{
+  fill: #f00;
+  opacity: .5;
 }
 
 .x{
@@ -46,3 +68,4 @@
   stroke-width: 1px;
   ;
 }
+
