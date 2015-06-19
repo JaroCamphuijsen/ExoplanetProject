@@ -1,3 +1,4 @@
+
 .easterL{
   fill: #0ff;
 }
@@ -8,7 +9,10 @@
 
 .dot {
   fill: #000;
-  opacity: .2;
+  opacity: .3;
+  stroke: rgba(0,0,0,0);
+  /*stroke-opacity: 0;*/
+  stroke-width: 6;
 }
 
 .selDot {
@@ -20,6 +24,10 @@
   fill: none;
   stroke: #000;
 }
+.tick > text{
+  fill: #000;
+  stroke: none;
+}
 
 .axisTitle{
 
@@ -27,21 +35,38 @@
 
 .titleButton{
   fill: #ddd;
+  stroke: #000;
+  stroke-width:1;
 
 }
-.highlight{
-  fill: #ff0;
-}
-
-
 
 .plotMenuButton{
-  fill: #f00;
-  opacity: .5;
+  fill: #ddd;
+  opacity: .8;
 }
 
-.x{
+.plotMenuButton > text{
+  fill: #000;
+  opacity: 1;
 
+} 
+.entry{
+  fill: #aaa;
+  opacity: .8;
+}
+
+.entry > text{
+  fill: #000;
+  opacity: 1;
+} 
+
+.highlight{
+  fill: rgba(196,119,73,1);
+  opacity: 1;
+}
+
+
+.x{
 }
 
 .y{
@@ -69,3 +94,7 @@
   ;
 }
 
+text{
+  font-family: "Trebuchet MS", Helvetica, sans-serif ;
+  cursor: default;
+}

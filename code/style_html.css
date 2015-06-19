@@ -1,6 +1,14 @@
-body{
-	background-color: white;
-	color: black;
+body {
+    background-image: url("mars.jpg");
+    background-color: #cccccc;
+    background-attachment: fixed;
+    background-position: center; 
+	font-family: "Trebuchet MS", Helvetica, sans-serif ;
+}
+
+div{
+	background-color: rgba(220,220,220,.5);
+	margin: 10px;
 }
 .tooltip{
 	font-size: 9px;
@@ -8,40 +16,83 @@ body{
 	background-color: rgba(0,0,0,.7);
 }
 
-.dropdown{
-	
-}
 
-#mpvDiv{
-	background-color: rgba(0,0,0,0);
-	width: 70%;
-	height: 400px;
-	float: left;
+
+@media (max-width:1272px) {
+	div{
+		display: block;
+		margin: 10px;
+	}
+
+	#mpvDiv{
+		width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+
+	}
+
+	#spvDiv{
+		background-color: rgba(220,220,220,.5);
+		width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#spInfoDiv{
+		background-color: rgba(220,220,220,.5);
+		width: 800px;		
+		height: 200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#storyDiv{
+		background-color: rgba(220,220,220,.5);
+		width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
 }
+@media (min-width:1273px) {
+	#mpvDiv{
+		width: 800px;
+		height: 400px;
+		float: left;
 
-#spvDiv{
-	background-color: rgba(0,0,0,0);
-	width: 30%;
-	height: 400px;
-	float: right;
-}
+	}
 
-#spInfoDiv{
-	background-color: rgba(0,0,0,0.1);
-	width: 60%;
-	height: 200px;
-	float: right;
-	position:relative;
-}
-.infoCol{
+	#spvDiv{
+		width: 400px
+		height: 400px;
+		float: right;
+	}
+
+	#spInfoDiv{
+		width: 900px;
+		height: 200px;
+		float: right;
+		position:relative;
+	}
+	#storyDiv{
+		width: 280px;
+		height: 180px;
+		float: left;
+		position:relative;
+	}
+
+/*	.infoCol{
 	height: 100%;
-	background-color: rgba(0,0,0,0.1);
+	background-color: rgba(0,0,0,0);
+	padding: 5;
 	display: inline-block;
 	position: absolute;
-	font-family: "Courier New", monospace ;
-
+	}*/
 }
+
+#storyDiv{
+	padding: 10px;
+}
+
 div#button{
 	width: 100px;
 	height: 30px;
@@ -50,7 +101,17 @@ div#button{
 	background-color:red;
 	color: black;}
 
-h3{
-	
+svg{
+	display: block;
+	margin: auto;
+}
+
+h1{
+	text-align: center;
+	color: rgba(220,220,220,1);
+	min-width: 800px;
+}
+h4{
+	text-align: center;
 }
 

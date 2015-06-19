@@ -6,51 +6,55 @@ spvDiv => single planet view div, here we'll see the planet's orbit
 spInfoDiv => single planet info div, showing extra information about
 the selected planet
 */
-var dataset = [],
-    body = d3.select("body"),
-    mpvDiv = body.selectAll("#mpvDiv"),
-    spvDiv = body.selectAll("#spvDiv"),
+var body = d3.select("body"),
+    mpvDiv = body.select("#mpvDiv"),
+    spvDiv = body.select("#spvDiv"),
+    spInfoDiv = body.select("#spInfoDiv"),
+    storyDiv = body.select("#storyDiv"),
     mpvWidth = 800, mpvHeight = 400,
     spvWidth = 400, spvHeight = 400,
-    mpvPadding = 50,
-    mpvXScale = d3.scale.linear().range([mpvPadding, mpvWidth]),
-    mpvYScale = d3.scale.linear().range([mpvHeight - mpvPadding, 0]),
-    nCols = 3;
+    mpvSize = function() {return mpvDiv.node().getBoundingClientRect();}
+    spvSize = function() {return spvDiv.node().getBoundingClientRect();}
+    spInfoSize = function() {return spInfoDiv.node().getBoundingClientRect();}
+    storySize = function() {return storyDiv.node().getBoundingClientRect();}
+    mpvPadding = 70, DIMDICT = [],
+    nCols = 3, rDot = 2.4, rRect = 5;
 /*
 Initiating the visualization windows and the plot axes.
 */
-var mpvSvg = mpvDiv.append("svg")
-    .attr("width", mpvWidth + "px")
-    .attr("height", mpvHeight + "px")
-    .attr("class", "mpvSvg");
+
 
 var spvSvg = spvDiv.append("svg")
     .attr("width", spvWidth + "px")
     .attr("height", spvHeight + "px")
     .attr("class", "spvSvg");
 
+var mpvSvg = mpvDiv.append("svg")
+    .attr("width", mpvWidth + "px")
+    .attr("height", mpvHeight + "px")
+    .attr("class", "mpvSvg");
+
+var spInfoSvg = spInfoDiv.append("svg")
+    .attr("width", mpvWidth + "px")
+    .attr("height", 200 + "px")
+    .attr("class", "spInfoSvg");
+
+// var storySvg = storyDiv.append("svg")
+//     .attr("width", spvWidth + "px")
+//     .attr("height", 200 + "px")
+//     .attr("class", "storySvg");
 
 
 /*
 the data loading function, which encapsulates the rest of the code
 planets.csv is the dataset downloaded from http://exoplanetarchive.ipac.caltech.edu
 */
-dataset = d3.csv("planets.csv", function(data){
-    // spInfoDiv.select()
-    buildMpv(mpvSvg);
-    updateScatter(data, mpvSvg, "ra", "dec");
-
-    // button.on("click", function(d){
-    //     button.transition()
-    //         .duration(800)
-    //         .style("height", (Math.random() * mpvPadding + 150) + "px")
-    //         .style("width", (Math.random() * mpvPadding + 150) + "px")
-    //         .style("background-color", "rgb("+(Math.round(Math.random() * 255)) + "," +
-    //             (Math.round(Math.random() * 255)) + "," + (Math.round(Math.random() * 255)) + ", 0)");
-    //     var xAttr = pickRandom(dimensions);
-    //     var yAttr = pickRandom(dimensions);
-    //     updateScatter(data, mpvSvg, xAttr, yAttr);
-    //     });
+d3.csv("planets.csv", function(data){
+    d3.csv("dim_scraper/exoplanetDimensions.csv", function(d){
+        DIMDICT = d;
+        buildMpv(mpvSvg);
+        updateScatter(data, mpvSvg, "ra", "dec","lin");
+    });
 });
 
 /* 
