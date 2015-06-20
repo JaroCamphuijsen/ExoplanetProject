@@ -1,10 +1,21 @@
 body {
-    background-image: url("mars.jpg");
-    background-color: #cccccc;
-    background-attachment: fixed;
-    background-position: center; 
-	font-family: "Trebuchet MS", Helvetica, sans-serif ;
+	    background-image: url("mars.jpg");
+	    background-color: #cccccc;
+	    background-attachment: fixed;
+	    background-position: center; 
+	    background-repeat: no-repeat;
+		font-family: "Trebuchet MS", Helvetica, sans-serif ;
+		/*background-size: auto 150%;*/
+	}
+
+@media (max-aspect-ratio: 1000/369){
+	body {background-size: auto 150%;}
 }
+
+@media (min-aspect-ratio: 1000/369){
+	body {background-size: 100% auto;}
+}
+
 
 div{
 	background-color: rgba(220,220,220,.5);
@@ -15,7 +26,11 @@ div{
 	position: relative;
 	background-color: rgba(0,0,0,.7);
 }
-
+.spvSvg{
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
 
 
 @media (max-width:1272px) {
@@ -36,6 +51,10 @@ div{
 		width: 800px;
 		margin-left: auto;
 		margin-right: auto;
+	}
+	.spvSvg{
+		width: 800px;
+
 	}
 
 	#spInfoDiv{
@@ -65,6 +84,9 @@ div{
 		width: 400px
 		height: 400px;
 		float: right;
+	}
+	.spvSvg{
+		width: 400px;
 	}
 
 	#spInfoDiv{
@@ -101,6 +123,13 @@ div#button{
 	background-color:red;
 	color: black;}
 
+div.intro{
+	width: 400px;
+	height: 400px;
+	position:absolute;
+	top: 20px;
+	right: 20px;
+}
 svg{
 	display: block;
 	margin: auto;

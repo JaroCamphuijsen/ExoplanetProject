@@ -144,17 +144,7 @@ function updateScatter(data, svg, xAttr, yAttr, scale){
         .attr("dy", ".35em")
         .text(findDimAttr(DIMDICT, yAttr, "label"));
 
-    // svg.select("g.scale.axisTitle")
-    //     .on("mouseover", function(p){svg.select("g.scale.axisTitle").select("rect").classed("highlight", true);})
-    //     .on("mouseout", function(p){svg.select("g.scale.axisTitle").select("rect").classed("highlight", false);})
-    //     .on("click", function(p){updateScatter(data, svg, xAttr, yAttr, sclButton);})
-    //     .transition()
-    //     .duration(animationLength)
-    //     .select("text")
-    //     .attr("dy", ".35em")
-    //     .text(sclButton);
-
-        
+     
     // data-join
     var points = plotContainer.selectAll(".dot")
         .data(selData, function(d) {return d.pl_name});
@@ -184,6 +174,7 @@ function updateScatter(data, svg, xAttr, yAttr, scale){
         .duration(animationLength)
         .style("fill-opacity", 1);
 
+
     // exit old data
     points.exit()
         .classed("exit", true)
@@ -192,8 +183,35 @@ function updateScatter(data, svg, xAttr, yAttr, scale){
         .style("fill-opacity", 0)
         .remove();
 
-    //Easteregg not ready yet
+    points.attr("transform", transform);
+
+    var zoomXScale = d3.scale.linear()
+        .domain([0, mpvWidth])
+        .range([0, mpvWidth]);
+
+    var zoomYScale = d3.scale.linear()
+        .domain([0, mpvHeight])
+        .range([0, mpvHeight]);
+
+    svg.call(d3.behavior.zoom().x(zoomXScale).y(zoomYScale).scaleExtent([1, 12]).on("zoom", zoom));
+    function zoom() {
+        points.attr("transform", transform);
+    }
+
+    function transform(d) {
+        return "translate(" + x(d[xAttr]) + "," + y(d[yAttr]) + ")";
+    }
+
+
+   //Easteregg not ready yet
     // if(xAttr === "ra" && yAttr === "dec") {easterEgg(selData, points, mpvXScale, mpvYScale)}
+}
+
+function toSpv(planet, svg){
+
+    var mq = window.matchMedia("(max-width: 1272px)");
+    mq.addListener(function(){drawSpv(planet,svg)});
+    drawSpv(planet,svg);
 }
 
 
@@ -251,6 +269,7 @@ function showPlotMenu(data, svg, xAttr, yAttr, dimensions, axis, scale) {
     
     button.append("text")
         // .attr("x", function(d) { return x(d) - 3; })
+        .attr("dx", ".35em")
         .attr("y", buttonHeight / 2)
         .attr("dy", ".35em")
         .text(function(d){return d;})

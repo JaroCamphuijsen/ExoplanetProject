@@ -19,30 +19,38 @@ var body = d3.select("body"),
     storySize = function() {return storyDiv.node().getBoundingClientRect();}
     mpvPadding = 70, DIMDICT = [],
     nCols = 3, rDot = 2.4, rRect = 5;
+
+var introText = "Hello there, welcome to the Interactive Exoplanet Encyclopedia. Have fun exploring the universe!" +
+    "The skymap over there is interactive, try clicking one of the axis titles. You can choose a dimension for yourself" +
+    "and watch the planets fly into place. It's also possible to select a planet in the scatterplot, this text will make" +
+    "make place for an orbital model and below this window you'll find some detailed information about the planet. Good luck!";
 /*
 Initiating the visualization windows and the plot axes.
 */
 
-
-var spvSvg = spvDiv.append("svg")
-    .attr("width", spvWidth + "px")
-    .attr("height", spvHeight + "px")
-    .attr("class", "spvSvg");
-
 var mpvSvg = mpvDiv.append("svg")
     .attr("width", mpvWidth + "px")
     .attr("height", mpvHeight + "px")
-    .attr("class", "mpvSvg");
+    .attr("class", "mpvSvg")
+
+var spvSvg = spvDiv.append("svg")
+    // .attr("width", spvWidth + "px")
+    .attr("height", spvHeight + "px")
+    .attr("class", "spvSvg");
+
+
 
 var spInfoSvg = spInfoDiv.append("svg")
     .attr("width", mpvWidth + "px")
     .attr("height", 200 + "px")
     .attr("class", "spInfoSvg");
 
-// var storySvg = storyDiv.append("svg")
-//     .attr("width", spvWidth + "px")
-//     .attr("height", 200 + "px")
-//     .attr("class", "storySvg");
+// body.append("div")
+//     .attr("width", spvWidth)
+//     .attr("class","intro")
+//     .append("p")
+//     .attr("class","intro")
+//     .html(introText)  
 
 
 /*
