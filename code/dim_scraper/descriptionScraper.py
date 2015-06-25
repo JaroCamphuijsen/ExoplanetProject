@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# Name: Jaromir Camphuijsen
-# Student number: 6042473
+# The skeleton of this scraper was copied from the dataprocessing scraping exercise:
+# http://data.mprog.nl/homework/week-2-scraping
 import csv
 
 from pattern.web import URL, DOM, plaintext, decode_utf8
@@ -23,31 +23,27 @@ def extract_dimensions(dom):
     dimensions=list()
     
     for tr in dom('tr.column'):
-
-        ##every element is fetched seperately
         for td in tr('td.name'):
             name = td.content
             name = cleanUpSpaces(name)
             name = cleanUpName(name)
-
-
         for td in tr('td.label'):
             label=td.content
-
         for td in tr('td.description'):
             description = td.content
             description = cleanUpSpaces(description)  
-      
         column=[name,label,description]
         dimensions.append(column)
+    return dimensions
 
-    return dimensions  
-
+# the first part of the data had a dagger sign appended to its name to indicate 
+# that it was of a certain importance
 def cleanUpName(str):
     if str[-8:] == "&dagger;":
         str = str[:-8]
     return str
 
+# I had some trouble with spaces and "newlines" appended to the name and description
 def cleanUpSpaces(str):
     newstr = ""
     for i in range(len(str) - 1):
@@ -80,10 +76,8 @@ if __name__ == '__main__':
 
     # Parse the HTML file into a DOM representation
     dom = DOM(html)
-
     dimensions = extract_dimensions(dom)
-    
-    
+        
     # Write the CSV file to disk (including a header)
     with open(OUTPUT_CSV, 'wb') as output_file:
         save_csv(output_file, dimensions)

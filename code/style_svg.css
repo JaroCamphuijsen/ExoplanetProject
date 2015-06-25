@@ -13,13 +13,11 @@
   stroke: rgba(0,0,0,0);
   /*stroke-opacity: 0;*/
   stroke-width: 6;
+  cursor: pointer;
 }
 
-.selDot {
-  fill: #f00;
-  opacity: 1;
 
-}
+
 .axis{
   fill: none;
   stroke: #000;
@@ -37,28 +35,44 @@
   fill: #ddd;
   stroke: #000;
   stroke-width:1;
+  cursor: pointer;
 
 }
 
 .plotMenuButton{
   fill: #ddd;
   opacity: .8;
+  cursor: pointer;
 }
 
 .plotMenuButton > text{
   fill: #000;
   opacity: 1;
+  cursor: pointer;
 
 } 
 .entry{
   fill: #aaa;
   opacity: .8;
+  cursor:pointer;
 }
 
 .entry > text{
   fill: #000;
   opacity: 1;
 } 
+
+.sameVal{
+  fill: #fd4;
+  opacity: .9;
+}
+
+.selDot {
+  fill: #f00;
+  opacity: 1;
+
+}
+
 
 .highlight{
   fill: rgba(196,119,73,1);
@@ -75,12 +89,14 @@
 
 .orbit{
   fill: none;
+  
+}
+.exo{
   stroke:red;
   stroke-width: 2px;
 }
 
-.au{
-  fill: none;
+.terra{
   stroke:blue;
   stroke-width: 1px;
   stroke-dasharray:"(10,10)";
@@ -94,7 +110,13 @@
   ;
 }
 
+.exoPlanet{
+  fill: #2c2;
+  stroke: none;
+  opacity: 1;
+}
+
 text{
   font-family: "Trebuchet MS", Helvetica, sans-serif ;
-  cursor: default;
+  
 }
