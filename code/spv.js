@@ -1,17 +1,25 @@
 "usestrict";
 
+
+var t = 0;
+d3.timer(function (){animationStep(1, spvSvg)});
+
 function drawSpv(planet, svg){
     /*
     Function to draw the SinglePLanetView of the selected planet object. Takes
     a planet object as input and draws its orbit and the earth orbit on the given svg.
     */
 
-    //svgcenter, animationspeed and orbital variables are declared
+    //svgcenter and animationspeed 
     var svgcx = spvSize().width/2, svgcy = spvSize().height/2;
     var speed = 1;
+
+    // buildModel returns a new exoplanet and earth object with
+    // properties useful for drawing the spv 
     var model = buildModel(planet,svgcx, svgcy);
     var exoPlanet = model[0], earth = model[1]
     
+    // the svg is cleaned elements appended
     svg.selectAll("*")
         .remove();
 
@@ -29,61 +37,86 @@ function drawSpv(planet, svg){
             .attr("cy", earth.cy)
             .attr("r", exoPlanet.rstar);
 
-
+    // orbit of planets are drawn separately
     drawOrbit(earth, svg);
     drawOrbit(exoPlanet, svg);
+    // the total model is animated
     planetAnimation(model, speed, svg);
  
     showInfoBar(planet, spInfoSvg, 3);
 }
 
 function buildModel(planet, svgcx, svgcy){
+    /* 
+    takes and mpv planet and turns it into an mpv model
+    including the earth
+    returns list of spv planetobjects 
+    planet:     object      => mpv planet object
+    svgcx/
+    svgcy:      integer     => center of the svg
+    */
 
     var orbsmax = planet.pl_orbsmax, orbPer = (planet.pl_orbper/365), rStar;
     if (planet.pl_orbeccen == "") {ecc = 0}
     else {ecc = planet.pl_orbeccen}
     var orbsmin = orbsmax * Math.sqrt(1-Math.pow(ecc,2));
+    var orbitNorm = 150, starToOrb = 695500/149597871
     
+    // because of the large range of exoplanet orbits, I handle orbits larger
+    // than the earth orbit differently than those that are smaller
     if (orbsmax < 1) {
-        var exoPlanet = {cx : Math.round(Math.sqrt(Math.pow((orbsmax * 150), 2) - Math.pow((orbsmin * 150), 2)) + svgcx),
+        var exoPlanet = {
+                cx : Math.round(Math.sqrt(Math.pow((orbsmax * orbitNorm), 2) -
+                        Math.pow((orbsmin * orbitNorm), 2)) + svgcx),
                 cy : svgcy, 
-                rx : orbsmax * 150, 
-                ry : orbsmin * 150,
+                rx : orbsmax * orbitNorm, 
+                ry : orbsmin * orbitNorm,
                 orb: orbPer,
                 rpl: 5,
-                rstar : function() {if (planet.st_rad == 0 || planet.st_rad == "") {return (695500/149597871) *  150;}
-                        else {return (695500/149597871) * planet.st_rad * 150;}
+                rstar : function() {
+                        if (planet.st_rad == 0 || planet.st_rad == "") 
+                            {return (starToOrb) *  orbitNorm;}
+                        else {return (starToOrb) * planet.st_rad * orbitNorm;}
                     }
             };
         var earth = {cx : svgcx, 
                 cy : svgcy, 
-                rx : 150, 
-                ry : 150,
+                rx : orbitNorm, 
+                ry : orbitNorm,
                 orb: 1,
                 rpl: 5,
-                rstar : function() {return (695500/149597871) * 150;}
+                rstar : function() {return (starToOrb) * orbitNorm;}
             };
     }
     else {
-        var exoPlanet = {cx : Math.sqrt(Math.pow((150) ,2) - Math.pow(((orbsmin/orbsmax) * 150),2)) + svgcx,
+        var exoPlanet = {
+                cx : Math.sqrt(Math.pow((orbitNorm) ,2) - 
+                        Math.pow(((orbsmin/orbsmax) * orbitNorm),2)) + svgcx,
                 cy : svgcy, 
-                rx : 150, 
-                ry : 150 * Math.sqrt(1-Math.pow(ecc,2)),
+                rx : orbitNorm, 
+                ry : orbitNorm * Math.sqrt(1-Math.pow(ecc,2)),
                 orb: orbPer,
                 rpl: 5,
-                rstar : function() {if (planet.st_rad == 0 || planet.st_rad == "") {return Math.round((695500/149597871) *  150)}
-                        else {return Math.round((695500/149597871) * planet.st_rad * (150/(orbsmax)))}
+                rstar : function() {
+                        if (planet.st_rad == 0 || planet.st_rad == "") 
+                            {return Math.round((starToOrb) *  orbitNorm)}
+                        else {return Math.round((starToOrb) * planet.st_rad * 
+                                (orbitNorm/(orbsmax)))}
                     }
             };
         var earth = {cx : svgcx, 
                 cy : svgcy, 
-                rx : Math.round(150/(orbsmax)), 
-                ry : Math.round(150/(orbsmax)),
+                rx : Math.round(orbitNorm/(orbsmax)), 
+                ry : Math.round(orbitNorm/(orbsmax)),
                 orb: 1,                
                 rpl: 5,
-                rstar : function() {return Math.round((695500/149597871) * (150/(orbsmax)))}
+                rstar : function() {
+                        return Math.round((starToOrb) * (orbitNorm/(orbsmax)))
+                    }
             };
     }
+
+    // planet name and class properties
     exoPlanet.pl_name = planet.pl_name;
     exoPlanet.pl_class = "exo";
     earth.pl_name = "earth";
@@ -93,8 +126,10 @@ function buildModel(planet, svgcx, svgcy){
 }
 
 function drawOrbit(planet, svg){
+    // draw orbit of the given planet object
     svg.append("ellipse")
         .attr("class", "orbit " + planet.pl_class)
+        .attr("stroke-dasharray","4,1")
         .attr("cx", planet.cx)
         .attr("cy", planet.cy)
         .attr("rx", planet.rx)
@@ -103,35 +138,41 @@ function drawOrbit(planet, svg){
 }
 
 function planetAnimation(planets, speed, svg){
+    /* 
+    append planet spheres and animate them
+    planets:    list of planet objects
+    speed:      integer
+    svg:        d3 svg selection
+    */
     var planets = svg.selectAll(".plContainer")
-        .data(planets)
+        .data(planets);
 
+    // enter the planets in the model and given them their starting position
     planets.enter()
         .append("g")
-        .attr("class", "plContainer " + function(p){return p.pl_class})
+        .attr("class", function(p) {return "plContainer " + p.pl_class;})
         .append("circle")
         .attr("class", "planet")
         .attr("r", function(p){return p.rpl})
         .attr("cx", function(p){return (p.cx - p.rx)})
         .attr("cy", function(p){return p.cy});
-    
-    t = 0;
-    d3.timer(function() { animationStep(planets, speed, svg)  })           
-               
 }
 
-function animationStep(planets, speed, svg) {
-    var resolution = 500
+function animationStep(speed, svg, animCount) {
+
+    var planets = svg.selectAll(".plContainer")
+
+    var resolution = 2000;
     t += 1;
     
-
     var t_theta = ((2 * Math.PI)/resolution) * speed * t;
 
      // t_x = planet.rx * Math.cos(t_theta);
      // t_y = planet.ry * Math.sin(t_theta);
-        // console.log(Math.cos(t_theta))
-    // console.log(Math.cos(t_theta))
+
     planets.select(".planet")
         .attr('cx', function(p){return p.cx + (p.rx * Math.cos(t_theta/p.orb));})
         .attr('cy', function(p){return p.cy + (p.ry * Math.sin(t_theta/p.orb));});
+
+
 }

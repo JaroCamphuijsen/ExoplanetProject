@@ -32,7 +32,9 @@ div#story{
 
 .storyButton{
 	bottom: 10px;
-	background-color: rgba(200,200,200,.8);
+	background-color: rgba(50,50,50,.4);
+	padding-left:5px;
+	cursor: pointer;
 }
 
 .tooltip{
@@ -116,13 +118,6 @@ div#story{
 		position:relative;
 	}
 
-/*	.infoCol{
-	height: 100%;
-	background-color: rgba(0,0,0,0);
-	padding: 5;
-	display: inline-block;
-	position: absolute;
-	}*/
 }
 
 #explainDimDiv{
@@ -136,6 +131,10 @@ div#button{
 	top: 450px;
 	background-color:red;
 	color: black;}
+
+.highlight{
+	background-color:rgba(196,119,73,1);
+}
 
 div.intro{
 	width: 400px;
@@ -153,8 +152,10 @@ h1{
 	text-align: center;
 	color: rgba(220,220,220,1);
 	min-width: 800px;
+	text-decoration: none;
 }
 h4{
 	text-align: center;
 }
+a{text-decoration:none;}
 

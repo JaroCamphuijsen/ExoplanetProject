@@ -28,7 +28,7 @@
 }
 
 .axisTitle{
-
+  cursor: pointer;
 }
 
 .titleButton{
@@ -87,19 +87,28 @@
 
 }
 
-.orbit{
-  fill: none;
-  
-}
+
 .exo{
-  stroke:red;
+  fill: #840;
+  stroke:#840;
   stroke-width: 2px;
 }
 
 .terra{
-  stroke:blue;
+  fill: #044;
+  stroke:#044;
   stroke-width: 1px;
-  stroke-dasharray:"(10,10)";
+  
+}
+
+.orbit{
+  fill: none;
+  opacity: .3;
+}
+
+.planet{
+  stroke: none;
+  opacity: 1;
 }
 
 
@@ -110,11 +119,7 @@
   ;
 }
 
-.exoPlanet{
-  fill: #2c2;
-  stroke: none;
-  opacity: 1;
-}
+
 
 text{
   font-family: "Trebuchet MS", Helvetica, sans-serif ;

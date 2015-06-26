@@ -20,7 +20,7 @@ var body = d3.select("body"),
     spInfoSize = function() {return spInfoDiv.node().getBoundingClientRect();},
     explainDimSize = function() {return explainDimDiv.node().getBoundingClientRect();},
     mpvPadding = 70, DIMDICT = [],
-    nCols = 3, rDot = 2.4, rRect = 5;
+    nCols = 3, rDot = 2.4; 
 
 
 /*
@@ -42,8 +42,7 @@ var spInfoSvg = spInfoDiv.append("svg")
     .attr("height", 200 + "px")
     .attr("class", "spInfoSvg");
 
-var storyDiv = body.append("div")
-    .attr("id","story");
+
 
 /*
 the data loading function, which encapsulates the rest of the code
@@ -57,8 +56,8 @@ d3.csv("planets.csv", function(data){
     d3.csv("dim_scraper/exoplanetDimensions.csv", function(d){
         DIMDICT = d;
         buildMpv(mpvSvg);
-        updateScatter(data, mpvSvg, "ra", "dec","lin");
-        // intro();
+        updateScatter(data, mpvSvg, "ra", "dec");
+        intro(data);
     });
 });
 

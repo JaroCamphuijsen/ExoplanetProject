@@ -1,14 +1,14 @@
 "usestrict";
 
-var menuTimeout
+var menuTimeout;
 
 function buildMpv(svg){
 /*
 The Multi Planet View and all of its parts is initiated 
 */
 
-    // Initiate the axis containers first, so they will be at the lowest level in the svg,
-    // and transform them into place.
+    // Initiate the axis containers first, so they will be at the lowest 
+    // level in the svg, and transform them into place.
     var xContainer = mpvSvg.append("g")
         .attr("class", "x axisContainer")
         .attr("transform", "translate(0," + (mpvHeight - mpvPadding) + ")");
@@ -23,33 +23,35 @@ The Multi Planet View and all of its parts is initiated
     yContainer.append("g")
         .attr("class", "axis y");
 
-    // appending the axisTitle containers and text element to the axis containers
+    // appending the axis titles and axis scales the axis containers
     xContainer.append("g")
         .attr("class", "axisTitle x")
-        .attr("transform", "translate(" + (((mpvWidth - mpvPadding)/2) + mpvPadding) + "," + 40 + ")")  
+        .attr("transform", "translate(" + (((mpvWidth - mpvPadding)/2) + 
+                mpvPadding) + "," + 40 + ")")  
       .append("rect")
         .attr("class", "titleButton")
         .attr("width", 250)
         .attr("height", 30)
         .attr("x",-125)
         .attr("y", -15)
-        .attr("rx", rRect)
-        .attr("ry", rRect);
+        .attr("rx", 5)
+        .attr("ry", 5);
     xContainer.select(".axisTitle")
       .append("text")
         .attr("text-anchor", "middle");
  
     yContainer.append("g")
         .attr("class", "axisTitle y")
-        .attr("transform", "translate(" + -50 + ", " + ((mpvHeight - mpvPadding)/2) + ") rotate(270)")
+        .attr("transform", "translate(" + -50 + ", " + 
+                ((mpvHeight - mpvPadding)/2) + ") rotate(270)")
       .append("rect")
         .attr("class", "titleButton")
         .attr("width", 250)
         .attr("height", 30)
         .attr("x",-125)
         .attr("y", -15)
-        .attr("rx", rRect)
-        .attr("ry", rRect);
+        .attr("rx", 5)
+        .attr("ry", 5);
     yContainer.select(".axisTitle")
       .append("text")
         .attr("text-anchor", "middle");
@@ -62,78 +64,115 @@ The Multi Planet View and all of its parts is initiated
     // so it will be on top of the scatterplot and axes
     svg.append("g")
         .attr("class","plotMenu")
-        .attr("transform", "translate(" + (((mpvWidth - mpvPadding)/2) + mpvPadding) + ", " + ((mpvHeight - mpvPadding)/2) + ")");
+        .attr("transform", "translate(" + (((mpvWidth - mpvPadding)/2) + 
+                mpvPadding) + ", " + ((mpvHeight - mpvPadding)/2) + ")");
 }
 
-function updateScatter(data, svg, xAttr, yAttr, scale){
+function updateScatter(data, svg, xAttr, yAttr, scaleX, scaleY){
     /*
-    Updates the old scatterplot to scatterplot with new dimensions xAttr and yAttr
-    in the multiplanetview. Using sexy transitions.
+    Updates the old scatterplot to scatterplot with new dimensions xAttr and
+    yAttr in the multiplanetview. Using sexy transitions.
     */
-    // Filter the data for the chosen dimensions so all datapoints without a value 
-    // for x or y will not be drawn.
+    // Filter the data for the chosen dimensions so all datapoints without a 
+    // value for x or y will not be drawn.
     var selData = filterData(data, xAttr, yAttr);
-    var dataXRange = d3.extent(selData, function(p) { return Number(p[xAttr]); });
-    var dataYRange = d3.extent(selData, function(p) { return Number(p[yAttr]); });
 
-    // Even though I do not use this functionality at the moment, updateScatter has 
-    // a possibility to plot on a logarithmic scale, if log scale is selected, 
-    // it will delete all zero values
+    var dataXRange = typeof scaleX !== "undefined" ?  scaleX : d3.extent(selData, function(p){return Number(p[xAttr]);});
+    var dataYRange = typeof scaleY !== "undefined" ?  scaleY : d3.extent(selData, function(p){return Number(p[yAttr]);});
+
+   
+    var scale = "lin";
+    // Even though I do not use this functionality at the moment, 
+    // updateScatter has a possibility to plot on a logarithmic scale, if log 
+    // scale is selected, it will delete all zero values
     if (scale === "lin"){
-        var mpvXScale = d3.scale.linear().range([mpvPadding, mpvWidth - 10]).domain(dataXRange);
-        var mpvYScale = d3.scale.linear().range([mpvHeight - mpvPadding, 20]).domain(dataYRange);
+        var mpvXScale = d3.scale
+            .linear()
+            .range([mpvPadding, mpvWidth - 10])
+            .domain(dataXRange);
+        var mpvYScale = d3.scale
+            .linear()
+            .range([mpvHeight - mpvPadding, 20])
+            .domain(dataYRange);
     }
     if (scale === "log"){
         selData = delZeroVal(selData);
-        var mpvXScale = d3.scale.log().range([mpvPadding, mpvWidth]).domain(dataXRange);
-        var mpvYScale = d3.scale.log().range([mpvHeight - mpvPadding, 0]).domain(dataYRange);
+        var mpvXScale = d3.scale
+            .log()
+            .range([mpvPadding, mpvWidth])
+            .domain(dataXRange);
+        var mpvYScale = d3.scale
+            .log()
+            .range([mpvHeight - mpvPadding, 0])
+            .domain(dataYRange);
     }
 
-    // A selection of the available dimensions in the data is selected, because many of the original dimensions
-    // are to specific or not plottable
-    var mpvDimensions = ["pl_pnum", "pl_orbper", "pl_orbsmax", "pl_orbeccen", "pl_massj", "pl_msinij", "pl_radj", 
-    "pl_dens", "pl_orbincl", "ra", "dec", "st_dist", "st_vj", "st_teff", "st_mass", "st_rad", "pl_disc"];
-
+    // A selection of the available dimensions in the data is selected, 
+    // because many of the original dimensions are to specific or not plottable
+    var mpvDimensions = ["pl_pnum", "pl_orbper", "pl_orbsmax", "pl_orbeccen", 
+            "pl_massj", "pl_msinij", "pl_radj", "pl_dens", "pl_orbincl", "ra", 
+            "dec", "st_dist", "st_vj", "st_teff", "st_mass", "st_rad", 
+            "pl_disc"];
 
     var xAxis = d3.svg.axis().scale(mpvXScale).orient("bottom");
     var yAxis = d3.svg.axis().scale(mpvYScale).orient("left");
     var plotContainer = svg.select("#plotContainer");
 
+    // transitions for the axes to the new scales
     svg.select(".x.axisContainer")
-        .select(".x.axis")
+      .select(".x.axis")
         .transition()
-        .duration(3000)
+        .duration(1500)
         .call(xAxis);
 
     svg.select(".y.axisContainer")
-        .select("g.y.axis")
-        .transition()
-        .duration(3000)
-        .call(yAxis);
-
-
-    svg.select("g.x.axisTitle")
-        .on("mouseover", function(p){svg.select("g.x.axisTitle").select("rect").classed("highlight", true);})
-        .on("mouseout", function(p){svg.select("g.x.axisTitle").select("rect").classed("highlight", false);})
-        .on("click", function(p){showPlotMenu(data, svg, xAttr, yAttr, mpvDimensions, "x", scale);})
+      .select("g.y.axis")
         .transition()
         .duration(1500)
-        .select("text")
+        .call(yAxis);
+
+    // transition for the axis titles to the new titles
+    svg.select("g.x.axisTitle")
+        .on("mouseover", function(p){
+            svg.select("g.x.axisTitle")
+                .select("rect")
+                .classed("highlight", true);
+            })
+        .on("mouseout", function(p){
+            svg.select("g.x.axisTitle")
+                .select("rect")
+                .classed("highlight", false);
+            })
+        .on("click", function(p){
+            showPlotMenu(data, svg, xAttr, yAttr, mpvDimensions, "x");
+            })
+        .transition()
+        .duration(1500)
+      .select("text")
         .attr("dy", ".35em")
         .text(findDimAttr(DIMDICT, xAttr, "label"));
 
     svg.select("g.y.axisTitle")        
-        .on("mouseover", function(p){svg.select("g.y.axisTitle").select("rect").classed("highlight", true);})
-        .on("mouseout", function(p){svg.select("g.y.axisTitle").select("rect").classed("highlight", false);})
-        .on("click", function(p){showPlotMenu(data, svg, xAttr, yAttr, mpvDimensions, "y", scale);})
+        .on("mouseover", function(p){
+                svg.select("g.y.axisTitle")
+                    .select("rect")
+                    .classed("highlight", true);
+            })
+        .on("mouseout", function(p){
+            svg.select("g.y.axisTitle")
+                .select("rect")
+                .classed("highlight", false);
+            })
+        .on("click", function(p){
+            showPlotMenu(data, svg, xAttr, yAttr, mpvDimensions, "y");
+            })
         .transition()
         .duration(1500)
-        .select("text")
+      .select("text")
         .attr("dy", ".35em")
         .text(findDimAttr(DIMDICT, yAttr, "label"));
-
      
-    // data-join
+    // data-join with pl_name as keyfunction
     var points = plotContainer.selectAll(".dot")
         .data(selData, function(p) {return p.pl_name});
 
@@ -150,7 +189,7 @@ function updateScatter(data, svg, xAttr, yAttr, scale){
         .attr("cx", function(p) {
             if (Number(p[xAttr]) != 0){
             return mpvXScale(p[xAttr]);}
-            else{return (mpvPadding - 5);}
+            else{ return (mpvPadding - 5);}
         })
         .attr("cy", function(p) {
             if (Number(p[yAttr]) != 0){
@@ -159,20 +198,12 @@ function updateScatter(data, svg, xAttr, yAttr, scale){
 
     // enter new data
     points.enter()
-        .append("circle")
+        .insert("circle", ".sameVal, .selDot")
         .classed("dot", true)
         .style("fill-opacity", 0)
         .attr("cx", function(p) {return (mpvXScale(p[xAttr]))})
         .attr("cy", function(p) {return (mpvYScale(p[yAttr]))})
         .attr("r", rDot)
-        // .on("mouseover", function(p){d3.select(d3.event.target).classed("highlight", true);})
-        // .on("mouseout", function(p){d3.select(d3.event.target).classed("highlight", false);})
-        // .on("click", function(p){
-        //     toSpv(p, spvSvg);
-        //     // d3.selectAll(".dot").classed("selDot", false); 
-        //     // d3.select(d3.event.target).classed("selDot", true);
-        //     drawSelDot(p, mpvXScale(p[xAttr]), mpvYScale(p[yAttr]), mpvSvg);
-        //     })
         .transition()
         .duration(1500)
         .style("fill-opacity", 1);
@@ -186,39 +217,28 @@ function updateScatter(data, svg, xAttr, yAttr, scale){
         .style("fill-opacity", 0)
         .remove();
 
-    points.on("mouseover", function(p){d3.select(d3.event.target).classed("highlight", true);})
-        .on("mouseout", function(p){d3.select(d3.event.target).classed("highlight", false);})
+    // highlighting datapoints when hovering and selecting one datapoint on 
+    // clicking the selected datapoint is also sent to the Single Planet View 
+    // through the "toSpv" function
+    points.on("mouseover", function(p){
+            d3.select(d3.event.target)
+                .classed("highlight", true);
+            })
+        .on("mouseout", function(p){
+            d3.select(d3.event.target)
+                .classed("highlight", false);
+            })
         .on("click", function(p){
             toSpv(p, spvSvg);
-            // d3.selectAll(".dot").classed("selDot", false); 
-            // d3.select(d3.event.target).classed("selDot", true);
             drawSelDot(p, mpvXScale(p[xAttr]), mpvYScale(p[yAttr]), mpvSvg);
             });
 
- 
-    // points.attr("transform", transform);
-
-    // var zoomXScale = d3.scale.linear()
-    //     .domain([0, mpvWidth])
-    //     .range([0, mpvWidth]);
-
-    // var zoomYScale = d3.scale.linear()
-    //     .domain([0, mpvHeight])
-    //     .range([0, mpvHeight]);
-
-    // svg.call(d3.behavior.zoom().x(zoomXScale).y(zoomYScale).scaleExtent([1, 12]).on("zoom", zoom));
-    // function zoom() {
-    //     points.attr("transform", transform);
+    //Easteregg not ready yet
+    // if(xAttr === "ra" && yAttr === "dec") {
+    //     easterEgg(selData, points, mpvXScale, mpvYScale)
     // }
-
-    // function transform(d) {
-    //     return "translate(" + x(d[xAttr]) + "," + y(d[yAttr]) + ")";
-    // }
-
-
-   //Easteregg not ready yet
-    // if(xAttr === "ra" && yAttr === "dec") {easterEgg(selData, points, mpvXScale, mpvYScale)}
 }
+
 function drawSelDot(planet, x, y, svg){
     var plotContainer = svg.select("#plotContainer");
     plotContainer.selectAll(".selDot")
@@ -242,6 +262,8 @@ function drawSelDot(planet, x, y, svg){
 }
 
 function toSpv(planet, svg){
+    // sends the selected planet to the svg
+    // the size of the svg is matched to the browser window
     var mq = window.matchMedia("(max-width: 1272px)");
     mq.addListener(function(){drawSpv(planet,svg)});
     drawSpv(planet,svg);
@@ -250,7 +272,8 @@ function toSpv(planet, svg){
 
 function filterData(data, xAttr, yAttr) {
     /*
-    Function to filter the data given two dimensions.
+    Function to filter the data given two dimensions. Any data without one of
+    the attributes is not returned.
     */
     var d, newData = [];
         for (d = 0; d < data.length; d++) {
@@ -267,60 +290,95 @@ function showPlotMenu(data, svg, xAttr, yAttr, dimensions, axis, scale) {
     */
     var buttonWidth = 100;
     var buttonHeight = 30;
+    //define the contents of the first columns of the menu
     var col = dimensions.slice(0,Math.round(dimensions.length/2));
     
+    // for each menu (y and x), the start and end positions are defined
     if (axis === "x"){
         var start1 = function(d,i){return "translate(-101,400)"}; 
         var start2 = function(d,i){return "translate(1,400)"};
-        var end1 = function(d, i) { return "translate(-101," + ( i - col.length/2) * buttonHeight + ")"} ;
-        var end2 = function(d, i) { return "translate(1," + ((i - col.length) - col.length/2) * buttonHeight + ")"} ;
+        var end1 = function(d, i) { 
+            return "translate(-101," + ( i - col.length/2) * buttonHeight + ")"
+            };
+        var end2 = function(d, i) { 
+            return "translate(1," + ((i - col.length) - col.length/2) * 
+                buttonHeight + ")"
+            };
     }
     if (axis === "y"){
-        var start1 = function(d, i) { return "translate(-600," + (i - col.length/2) * buttonHeight + ")"} ;
-        var start2 = function(d, i) { return "translate(-600," + ((i - col.length) - col.length/2) * buttonHeight + ")"} ; 
-        var end1 = function(d, i) { return "translate(-351," + (i - col.length/2) * buttonHeight + ")"} ;
-        var end2 = function(d, i) { return "translate(-249," + ((i - col.length) - col.length/2) * buttonHeight + ")"} ;
+        var start1 = function(d, i) { 
+            return "translate(-600," + (i - col.length/2) * buttonHeight + ")"
+            };
+        var start2 = function(d, i) { 
+            return "translate(-600," + ((i - col.length) - col.length/2) * 
+                buttonHeight + ")"
+            }; 
+        var end1 = function(d, i) { 
+            return "translate(-351," + (i - col.length/2) * buttonHeight + ")"
+            };
+        var end2 = function(d, i) { 
+            return "translate(-249," + ((i - col.length) - col.length/2) * 
+                buttonHeight + ")"
+            };
     }
 
+    // button databinding
     var button = svg.select(".plotMenu")
         .selectAll(".plotMenuButton")
         .data(dimensions);
 
+    // button enterselection, appended with starting position and a transition
+    // to the end position of each button
     button.enter()
         .append("g")
         .attr("class", "plotMenuButton")
-        .attr("transform", function(d,i){if(col.indexOf(d) >= 0){return start1(d,i)} else{return start2(d,i)}})
+        .attr("transform", function(d,i){
+            if(col.indexOf(d) >= 0){return start1(d,i)} 
+            else{return start2(d,i)}
+            })
         .transition()
         .duration(800)
-        .attr("transform", function(d,i){if(col.indexOf(d) >= 0){return end1(d,i)} else{return end2(d,i)}});
+        .attr("transform", function(d,i){
+            if(col.indexOf(d) >= 0){return end1(d,i)} 
+            else{return end2(d,i)}
+            });
     
-    
+    // contents of each button
     button.append("rect")
         .attr("width", 100)
         .attr("height", 0)
         .attr("height", buttonHeight - 1)
     
     button.append("text")
-        // .attr("x", function(d) { return x(d) - 3; })
         .attr("dx", ".35em")
         .attr("y", buttonHeight / 2)
         .attr("dy", ".35em")
         .text(function(d){return d;})
 
-    button.on("mouseover", function(p){d3.select(d3.event.target.parentNode).classed("highlight", true); explainDim(p, explainDimDiv);})
-        .on("mouseout", function(p){d3.select(d3.event.target.parentNode).classed("highlight", false);})
+    // interactivity of the menubuttons with updateScatter call
+    button.on("mouseover", function(p){
+            d3.select(d3.event.target.parentNode)
+                .classed("highlight", true); 
+            explainDim(p, explainDimDiv);
+            })
+        .on("mouseout", function(p){
+            d3.select(d3.event.target.parentNode)
+                .classed("highlight", false);
+            })
         .on("click", function(p){
             if (axis === "x") {xAttr = p}
             if (axis === "y") {yAttr = p}
             updateScatter(data, svg, xAttr, yAttr, scale);
 
         });
-// When the plotmenu is on screen, clicking anywhere in the svg will make the menu disappear.
-// A timeout is needed, otherwise clicking on the menubutton will simultaneously open and close
-// the menu, so no menu is shown at all.
+
+// When the plotmenu is on screen, clicking anywhere in the svg will make the 
+// menu disappear. A timeout is needed, otherwise clicking on the menubutton 
+// will simultaneously open and close the menu, so no menu is shown at all.
     menuTimeout = setTimeout(function(d){svg.on("click", function(p){
                 clearMenu(svg, col, start1, start2); 
-                svg.on("click", function(){})
+
+                svg.on("click", function(){});
             });
         }, 5);
 
@@ -336,7 +394,10 @@ function clearMenu(svg, col, end1, end2){
         .selectAll(".plotMenuButton")
         .transition()
         .duration(800)
-        .attr("transform", function(d,i){if(col.indexOf(d) >= 0){return end1(d,i)} else{return end2(d,i)}})
+        .attr("transform", function(d,i){
+            if(col.indexOf(d) >= 0){return end1(d,i)} 
+            else{return end2(d,i)}
+            })
         .remove()
 }
 
