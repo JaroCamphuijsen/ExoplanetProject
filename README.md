@@ -20,12 +20,12 @@ The user can choose to display all known exoplanets in any scatterplot with comb
 In the sky coordinate system or scatterplot, exoplanets can be selected to give the user detailed information about its values. A model of the planetary system will be displayed and perhaps the original data of discovery or additional measurements.   
 
 ## Screenshots  
-![Screenshot 1](/doc/screenshot1.jpg =250x "Introduction tour")
-An introduction tour through the visualization with scatterplot showing Keplers third law.
-![Screenshot 2](/doc/screenshot2.jpg =250x"Interactivity")
-All use of interactivity activated.  
-![Screenshot 3](/docs/screenshot3.jpg =100x"Scalable")
-The visualization is also usable on portrait oriented devices. 
+![Introduction tour](/docs/screenshot1.jpg =250x)
+An introduction tour through the visualization with scatterplot showing Keplers third law.  
+![Interactivity](/docs/screenshot2.jpg =250x)
+All use of interactivity activated.   
+![Scalable](/docs/screenshot3.jpg =250x)
+The visualization is also usable on portrait oriented devices.   
 
 ## Data  
 I use [the exoplanet archive from NASA](http://exoplanetarchive.ipac.caltech.edu/) to display all exoplanets in the scatterplot and for additional exoplanet or host star information. For a description of the dimensions of the data one of the documentation pages of the NASA archive had to be scraped.   
