@@ -135,14 +135,26 @@ div#button{
 .highlight{
 	background-color:rgba(196,119,73,1);
 }
+div#creDiv{
+	background-color:rgba(0,0,0,0);
+	position: fixed;
+	right: 30px;
+	bottom: 1px;
+	margin: 0px;
+}
 
-div.intro{
+p.credits{
+	color: rgba(220,220,220,1);
+	background-color: none;
+	font-size:10px;
+}
+/*div.intro{
 	width: 400px;
 	height: 400px;
 	position:absolute;
 	top: 20px;
 	right: 20px;
-}
+}*/
 svg{
 	display: block;
 	margin: auto;
@@ -157,5 +169,7 @@ h1{
 h4{
 	text-align: center;
 }
-a{text-decoration:none;}
+a{	text-decoration:none;
+	color: rgba(220,220,220,1);
+	}
 

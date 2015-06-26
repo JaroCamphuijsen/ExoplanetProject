@@ -67,7 +67,7 @@ function showInfoBar(planet, svg, nCols) {
                 entry.classed("sameVal", false);
                 d3.select(d3.event.target.parentNode).classed("sameVal", true);
                 var points = mpvSvg.select("#plotContainer").selectAll(".dot");
-                explainDim(d, explainDimDiv);
+                explainDim(d, explainDimDiv, planet[d]);
                 addClass(points, d, planet[d], "sameVal", true);
             })
 }
@@ -83,7 +83,7 @@ function findDimAttr(dimDict, dimension, attr){
 }
 
 
-function explainDim(dimension, div){
+function explainDim(dimension, div, value){
     // fill the explanation window
    div.selectAll("*")
         .remove();
@@ -91,4 +91,8 @@ function explainDim(dimension, div){
         .html(findDimAttr(DIMDICT, dimension, "label"));
     div.append("p")
         .html(findDimAttr(DIMDICT, dimension, "description"));
+    if (dimension === "pl_pelink"){
+        div.append("p")
+        .html('<a href="' + value + '" target="_blank"> View this planet\'s page</a>');
+    }
 }
