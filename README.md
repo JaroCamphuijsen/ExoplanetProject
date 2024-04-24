@@ -1,6 +1,7 @@
 # Exoplanet Encyclopedia
-**Jaro Camphuijsen**  
+**by Jaro Camphuijsen**  
 
+## Summary
 The goal of the Interactive Exoplanet
 Visualization (IEE) is to give users the possibility to view all currently known
 exoplanets in a pleasant environment and discover correlations or connections
